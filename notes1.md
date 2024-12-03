@@ -12,9 +12,8 @@ Data:
 - map for health cares, maps to the name of the healthcare tree
 - B tree for policies
 - B tree for class, create multiple B trees off that class when importing the data
-- Abhik working on GUI, Mary Alice working on Data Set, Mary working on B tree class
+- Abhik working on GUI, Mary Alice working on Data Set, Mary working on B tree implementation
 - make vector or something to store the total estimate of how many codes they look up
-
-
+- Mary start report
 - Need to install tkinter and customtkinter packages, using "pip install customtkinter"
 - Need 100,000 data points, insert shock emoji yikes! 
