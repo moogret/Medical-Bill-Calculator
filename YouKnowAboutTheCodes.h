@@ -1,6 +1,10 @@
 //
 // Created by marys on 12/2/2024.
 //
+#include <iostream>
+#include <vector>
+using namespace std;
+#include <string>
 
 // BTree Class: create a B Tree for each set of codes for different health cares and their policies
 class BTreeNode {
@@ -14,8 +18,8 @@ public:
 
     // Constructor
     BTreeNode(int t, bool isLeaf){
-        int t = t;
-        bool isLeaf = isLeaf;
+        this->t = t;
+        this->isLeaf = isLeaf;
     }
 
     // Functions
@@ -40,7 +44,7 @@ public:
             }
             i++;
             if(children[i]->keys.size() == (2 * t - 1)){
-                splitChild(i, children[i]);
+                split_child(i, children[i]);
                 if(key > keys[i]){
                     i++;
                 }
@@ -74,7 +78,7 @@ public:
     string search(const string& key){
         int i = 0;
 
-        while(i < keys.size() && key > keys[i])
+        while(i < keys.size() && key > keys[i]){
             i++;
         }
 
@@ -90,23 +94,15 @@ public:
     }
 
     // Traverse: traverse to display the keys and their values
-    void traverse(){
-        if(!root){
-            root = new BTreeNode(t, true);
-            root->keys.push_back(key);
-            root->values.push_back(value);
+    void traverse(int level = 0){
+        for(int i = 0; i < keys.size(); i++){
+            if(!isLeaf){
+                children[i]->traverse(level + 1);
+            }
+            cout << "Level " << level << " - Code: " << keys[i] << ", Value: " << values[i] << endl;
         }
-        else{
-            if(root->keys.size() == (2 * t - 1)){
-                BTreeNode* newRoot = new BTreeNode(t, false);
-                newRoot->children.push_back(root);
-                newRoot->splitChild(0, root);
-                root = newRoot;
-                root->insertNonFull(key, value);
-            }
-            else{
-                root->insertNonFull(key, value);
-            }
+        if(!isLeaf){
+            children[keys.size()]->traverse(level + 1);
         }
     }
 };
@@ -120,7 +116,7 @@ public:
     // Constructor
     BTree(int t){
         root = nullptr;
-        int t = t;
+        this->t = t;
     }
 
     // Functions
@@ -135,12 +131,12 @@ public:
             if(root->keys.size() == (2 * t - 1)){
                 BTreeNode* new_root = new BTreeNode(t, false);
                 new_root->children.push_back(root);
-                new_root->splitChild(0, root);
+                new_root->split_child(0, root);
                 root = new_root;
-                root->insert_non_full_key(key, value);
+                root->insert_non_full(key, value);
             }
             else{
-                root->insert_non_full_key(key, value);
+                root->insert_non_full(key, value);
             }
         }
     }
@@ -158,3 +154,4 @@ public:
     }
 
 };
+
