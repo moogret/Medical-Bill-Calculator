@@ -29,10 +29,25 @@ BTree File_decode(string filename, string tree_name){
         getline(ss, cost);
 
         new_tree.insert(med_code, cost);
-        cout << "B-Tree contents:" << endl;
-        new_tree.display();
+//        cout << "B-Tree contents:" << endl;
+//        new_tree.display();
     }
     return new_tree;
+}
+
+//function to search the map for the correct BTree
+BTree get_tree(map<string, BTree> insurance_map, string insurance){
+    for(const auto &pair : insurance_map){
+        if(pair.first == "insurance"){
+            return pair.second;
+        }
+    }
+    return NULL;
+}
+
+//function for adding a new cost
+vector<string> add_to_total(string code, double current_total){
+
 }
 
 int main(){
@@ -74,6 +89,18 @@ int main(){
     insurance_map.emplace("United Health", united_health);
     insurance_map.emplace("Florida Blue", florida_blue);
     insurance_map.emplace("Cigna", cigna);
+
+    //initializing total
+    vector<string> itemized_costs;
+    double total_cost = 0.0;
+
+    //need to take in user input to search the map for the right tree for now this is for testing functionality
+    BTree current_tree = get_tree(insurance_map, "United Health");
+
+    //take in user inout for the code they want to add
+
+
+
 
     return 0;
 }
