@@ -114,6 +114,7 @@ private:
     int t;
 
 public:
+    string name;
     // Constructor
     BTree(int t){
         root = nullptr;
