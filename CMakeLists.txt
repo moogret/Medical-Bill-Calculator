@@ -6,4 +6,8 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(.)
 
 add_executable(Project3
-        main.cpp)
+        main.cpp
+YouKnowAboutTheCodes.h
+YouKnowAboutTheCodes.cpp
+UI_constants.py
+UI_main.py)
