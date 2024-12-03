@@ -13,3 +13,4 @@ Data:
 - B tree for policies
 - B tree for class, create multiple B trees off that class when importing the data
 - Abhik working on GUI, Mary Alice working on Data Set, Mary working on B tree class
+- Need 100,000 data points, insert shock emoji yikes! 
