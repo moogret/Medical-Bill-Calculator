@@ -7,9 +7,10 @@
 #include "YouKnowAboutTheCodes.h"
 #include <fstream>
 #include <sstream>
+#include <map>
 using namespace std;
 
-BTree* File_decode(string filename, string tree_name){
+BTree File_decode(string filename, string tree_name){
     BTree new_tree(50000);
     new_tree.name = tree_name;
     ifstream file(filename);
@@ -31,7 +32,7 @@ BTree* File_decode(string filename, string tree_name){
         cout << "B-Tree contents:" << endl;
         new_tree.display();
     }
-    return &new_tree;
+    return new_tree;
 }
 
 int main(){
@@ -63,7 +64,16 @@ int main(){
 
     //Final Main Construction Below this line
 
+    //creating insurance B Tree
+    BTree united_health = File_decode("United_data.csv", "united_data");
+    BTree florida_blue = File_decode("Florida_Blue_data.csv", "florida_blue_data");
+    BTree cigna = File_decode("Cigna_data", "cigna_data");
+
+    //map initiation for 3 different insurances
+    map<string, BTree> insurance_map;
+    insurance_map.emplace("United Health", united_health);
+    insurance_map.emplace("Florida Blue", florida_blue);
+    insurance_map.emplace("Cigna", cigna);
 
     return 0;
-
 }
