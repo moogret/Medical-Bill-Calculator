@@ -32,21 +32,21 @@ def main():
 
     # build main user interface frames
     leftBottomButtons = ctk.CTkFrame(master=app, width=350, height=45, fg_color=FRAME_COLOR)
-    leftBottomButtons.grid(row=8, rowspan=1, column=1, columnspan=1, padx=5)
+    leftBottomButtons.place(relx=0.01, rely=0.92, anchor=ctk.NW)
 
     itemListFrame = ctk.CTkScrollableFrame(master=app, width=400, height=550, border_width=5, border_color="black", fg_color="white")
-    itemListFrame.grid(row=1, rowspan=5, column=1, columnspan=2, padx=10, pady=15)
+    itemListFrame.place(relx=0.85, rely=0.05, anchor=ctk.NW)
 
 
     # appearance dropdown selector
     appearance_dropdown = ctk.CTkOptionMenu(master=leftBottomButtons, values=APPEARANCE_OPTIONS, anchor=ctk.NW, command=change_appearance)
     appearance_dropdown.set(APPEARANCE)
-    appearance_dropdown.place(relx=0.05, rely=0.3, anchor=ctk.NW)
+    appearance_dropdown.grid(row=0, column=0, padx=4, pady=8)
 
     # window size dropdown selector
     window_size_dropdown = ctk.CTkOptionMenu(master=leftBottomButtons, values=WINDOW_SIZE_OPTIONS, command=change_res)
     window_size_dropdown.set(WINDOW_SIZE)
-    window_size_dropdown.place(relx=0.55, rely=0.3, anchor=ctk.NW)
+    window_size_dropdown.grid(row=0, column=1, padx=4, pady=8)
 
     insurance_dropdown = ctk.CTkOptionMenu(master=app, values=["", "United Health", "Florida Blue", "Cigna"])
     insurance_dropdown.place(relx=0.55, rely=0.3, anchor=ctk.NW)
@@ -54,15 +54,17 @@ def main():
 
     procedure_searchbox_var = ctk.StringVar(value="")
     procedure_searchbox = ctk.CTkComboBox(master=app, values=PROCEDURE_LIST, command=procedure_search, variable=procedure_searchbox_var)
-    # procedure_searchbox_var.set("00001")
-    procedure_searchbox.place(relx=0.55, rely=0.4, anchor=ctk.NW)
+    procedure_searchbox_var.set("Select Procedure")
+    procedure_searchbox.place(relx=0.20, rely=0.4, anchor=ctk.NW)
 
-    procedure_searchbutton = ctk.CTkButton(master=app, text="Search", command=procedure_find)
-    procedure_searchbutton.place(relx=0.65, rely=0.3, anchor=ctk.NW)
+    procedure_searchbutton = ctk.CTkButton(master=app, text="Search", command=procedure_find, width=15)
+    procedure_searchbutton.place(relx=0.33, rely=0.4, anchor=ctk.NW)
 
 
-    procedure_output_label = ctk.CTkLabel(master=app, text="Hi!")
-    procedure_output_label.place(relx=0.55, rely=0.5, anchor=ctk.NW)
+    procedure_output_label = ctk.CTkLabel(master=app, text="Welcome to Mary Squared + Abhik\nMedical Procedure Cost Calculator!")
+    procedure_output_label.place(relx=0.4, rely=0.05, anchor=ctk.NW)
+
+
 
 
 
