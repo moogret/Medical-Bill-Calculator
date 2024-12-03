@@ -37,6 +37,7 @@ BTree* File_decode(string filename, string tree_name){
 int main(){
     cout << "Hello Teammates!" << endl;
     // Mary testing to see if Btree implementation works, praying to every single god
+    // ITS WORKS LFG
     BTree btree(3);
 
     btree.insert("001", "General Checkup");
@@ -51,9 +52,10 @@ int main(){
     // Search for a procedure code
     string code = "003";
     string result = btree.search(code);
-    if (!result.empty()) {
+    if(!result.empty()){
         cout << "Procedure " << code << ": " << result << endl;
-    } else {
+    }
+    else{
         cout << "Procedure " << code << " not found." << endl;
     }
 

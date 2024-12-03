@@ -23,7 +23,7 @@ public:
     }
 
     // Functions
-    // Insert Non-Full: insert a key-value pair into a non-full node
+    // Insert Non-Full: insert a key-value pair into a non-full node; not needed every piece of data will have key and value
     void insert_non_full(const string& key, const string& value){
         int i = keys.size() - 1;
 
@@ -53,7 +53,7 @@ public:
         }
     }
 
-    // Split Child: make sure the tree remains balanced
+    // Split Child: make sure the tree remains balanced; this is key for insert function
     void split_child(int i, BTreeNode* fullChild){
         BTreeNode* newChild = new BTreeNode(fullChild->t, fullChild->isLeaf);
         int mid = t - 1;
@@ -107,6 +107,7 @@ public:
     }
 };
 
+// BTree class yippee
 class BTree{
 private:
     BTreeNode* root;
