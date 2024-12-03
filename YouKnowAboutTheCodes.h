@@ -19,7 +19,7 @@ public:
     }
 
     // Functions
-    // Insert Non Full: insert a key-value pair into a non-full node
+    // Insert Non-Full: insert a key-value pair into a non-full node
     void insert_non_full(const string& key, const string& value){
         int i = keys.size() - 1;
 
@@ -124,6 +124,37 @@ public:
     }
 
     // Functions
+    // Insert: insert a key-value pair into the tree
+    void insert(const string& key, const string& value){
+        if(!root){
+            root = new BTreeNode(t, true);
+            root->keys.push_back(key);
+            root->values.push_back(value);
+        }
+        else{
+            if(root->keys.size() == (2 * t - 1)){
+                BTreeNode* new_root = new BTreeNode(t, false);
+                new_root->children.push_back(root);
+                new_root->splitChild(0, root);
+                root = new_root;
+                root->insert_non_full_key(key, value);
+            }
+            else{
+                root->insert_non_full_key(key, value);
+            }
+        }
+    }
 
+    // Search: search for a key in the B-tree
+    string search(const string& key){
+        return root ? root->search(key) : "";
+    }
+
+    // Display: display the entire B-tree
+    void display(){
+        if (root) {
+            root->traverse();
+        }
+    }
 
 };
