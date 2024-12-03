@@ -5,7 +5,6 @@ from UI_constants import *
 # Sets theme for main window
 def change_appearance(selection): # changes window appearance based on selection
     ctk.set_appearance_mode(selection)
-    print(APPEARANCE_OPTIONS)
 
 # Sets resolution for main window
 def change_res(selection): # changes window resolution based on selection
