@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from tkinter import *
 from UI_constants import *
+import sys
 
 
 procedure_searchbox = None
