@@ -9,6 +9,7 @@
 #include <sstream>
 #include <map>
 #include <vector>
+#include <cmath>
 using namespace std;
 
 BTree File_decode(string filename, string tree_name){
@@ -29,8 +30,6 @@ BTree File_decode(string filename, string tree_name){
         getline(ss, cost);
 
         new_tree.insert(med_code, cost);
-//        cout << "B-Tree contents:" << endl;
-//        new_tree.display();
     }
     return new_tree;
 }
@@ -48,7 +47,8 @@ BTree get_tree(map<string, BTree> insurance_map, string insurance){
 //function for adding a new cost
 void add_to_total(string cost_to_add, double current_total, vector<string>& itemized){
     double new_cost = stof(cost_to_add);
-    current_total += new_cost;
+    float rounded_value = round(new_cost * 100) / 100;
+    current_total += rounded_value;
     itemized.push_back(cost_to_add);
 }
 
@@ -77,8 +77,6 @@ int main(){
         cout << "Procedure " << code << " not found." << endl;
     }
 
-//    File_decode("United_data.csv", "united_data"); //testing the file decoder function, works but all nodes at level zero
-
     //Final Main Construction Below this line
 
     //creating insurance B Tree
@@ -94,7 +92,7 @@ int main(){
 
     //initializing total
     vector<string> itemized_costs;
-    double total_cost = 0.0;
+    double total_cost = 0.00f;
 
     //need to take in user input to search the map for the right tree for now this is for testing functionality
     cout << "enter insurance" << endl;
