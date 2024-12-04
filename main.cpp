@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <map>
+#include <vector>
 using namespace std;
 
 BTree File_decode(string filename, string tree_name){
@@ -19,7 +20,6 @@ BTree File_decode(string filename, string tree_name){
     }
     string line;
     getline(file, line);
-    char delimeter = ',';
     while(getline(file, line)){
         stringstream ss(line);
         string med_code;
@@ -38,7 +38,7 @@ BTree File_decode(string filename, string tree_name){
 //function to search the map for the correct BTree
 BTree get_tree(map<string, BTree> insurance_map, string insurance){
     for(const auto &pair : insurance_map){
-        if(pair.first == "insurance"){
+        if(pair.first == insurance){
             return pair.second;
         }
     }
@@ -46,8 +46,10 @@ BTree get_tree(map<string, BTree> insurance_map, string insurance){
 }
 
 //function for adding a new cost
-vector<string> add_to_total(string code, double current_total){
-
+void add_to_total(string cost_to_add, double current_total, vector<string>& itemized){
+    double new_cost = stof(cost_to_add);
+    current_total += new_cost;
+    itemized.push_back(cost_to_add);
 }
 
 int main(){
@@ -75,14 +77,14 @@ int main(){
         cout << "Procedure " << code << " not found." << endl;
     }
 
-    File_decode("United_data.csv", "united_data"); //testing the file decoder function, works but all nodes at level zero
+//    File_decode("United_data.csv", "united_data"); //testing the file decoder function, works but all nodes at level zero
 
     //Final Main Construction Below this line
 
     //creating insurance B Tree
     BTree united_health = File_decode("United_data.csv", "united_data");
     BTree florida_blue = File_decode("Florida_Blue_data.csv", "florida_blue_data");
-    BTree cigna = File_decode("Cigna_data", "cigna_data");
+    BTree cigna = File_decode("Cigna_data.csv", "cigna_data");
 
     //map initiation for 3 different insurances
     map<string, BTree> insurance_map;
@@ -95,12 +97,22 @@ int main(){
     double total_cost = 0.0;
 
     //need to take in user input to search the map for the right tree for now this is for testing functionality
-    BTree current_tree = get_tree(insurance_map, "United Health");
+    cout << "enter insurance" << endl;
+    string user_input_1;
+    getline(cin, user_input_1);
+    BTree current_tree = get_tree(insurance_map, user_input_1);
 
     //take in user inout for the code they want to add
+    string user_input_2; //for now this is going to act as the user input for testing functionality
+    cout << "enter code" << endl;
+    getline(cin, user_input_2);
 
-
-
-
+    //search for associated cost
+    string cost_to_add;
+    cost_to_add = current_tree.search(user_input_2);
+    add_to_total(cost_to_add, total_cost, itemized_costs);
+    for(string cost: itemized_costs){
+        cout << cost << endl;
+    }
     return 0;
 }
