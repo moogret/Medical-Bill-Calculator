@@ -93,6 +93,27 @@ public:
         return children[i]->search(key);
     }
 
+    // Search Prefix: simultaneously search trees for each digit added and then add to a vector to show drop down on gui
+    void search_with_prefix(const string& prefix, vector<string>& results) {
+        // traverse the keys in this node
+        for (int i = 0; i < keys.size(); i++) {
+            // if the key starts with the prefix, add its value to the results
+            if (keys[i].substr(0, prefix.size()) == prefix) {
+                results.push_back(values[i]);
+            }
+
+            // if this is not a leaf node, traverse the corresponding child
+            if (!isLeaf) {
+                children[i]->search_with_prefix(prefix, results);
+            }
+        }
+
+        // traverse the last child if not a leaf
+        if (!isLeaf) {
+            children[keys.size()]->search_with_prefix(prefix, results);
+        }
+    }
+
     // Traverse: traverse to display the keys and their values
     void traverse(int level = 0){
         for(int i = 0; i < keys.size(); i++){
@@ -146,6 +167,15 @@ public:
     // Search: search for a key in the B-tree -> we have to change this so that we can compare this with another search algorithm
     string search(const string& key){
         return root ? root->search(key) : "";
+    }
+
+    // Wrapper Function for Search with Prefix Function
+    vector<string> search_with_prefix(const string& prefix) {
+        vector<string> results;
+        if (root) {
+            root->search_with_prefix(prefix, results);
+        }
+        return results;
     }
 
     // Display: display the entire B-tree
