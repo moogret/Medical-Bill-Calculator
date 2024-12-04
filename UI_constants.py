@@ -13,37 +13,37 @@ PROCEDURE_LIST = ["10001", "10003", "10007", "10012", "10016", "10017", "10021",
 INSURANCE_LIST = ["", "United Health", "Florida Blue", "Cigna"]
 
 
-import csv
-
-def process_csv(file_path):
-    # Initialize an empty list to store the tuples
-    result = []
-
-    # Open the CSV file for reading
-    with open(file_path, mode='r') as file:
-        csv_reader = csv.reader(file)
-
-        # Skip the header row if necessary (remove the next() line if there's no header)
-        next(csv_reader)
-
-        # Loop through the rows in the CSV
-        num_limiter = 0
-        for row in csv_reader:
-            if num_limiter > 509:
-                break
-            # Create a tuple from the first and second cells (columns)
-            if len(row) >= 2:  # Ensure there are at least two columns
-                result.append(row[0] + " " + row[1])
-            num_limiter += 1
-
-    return result
-
-# Example usage
-file_path = 'Florida_Blue_data_with_names.csv'  # Change this to the path of your CSV file
-data = process_csv(file_path)
-
-# Print the list of tuples
-print(data)
+# import csv
+# 
+# def process_csv(file_path):
+#     # Initialize an empty list to store the tuples
+#     result = []
+# 
+#     # Open the CSV file for reading
+#     with open(file_path, mode='r') as file:
+#         csv_reader = csv.reader(file)
+# 
+#         # Skip the header row if necessary (remove the next() line if there's no header)
+#         next(csv_reader)
+# 
+#         # Loop through the rows in the CSV
+#         num_limiter = 0
+#         for row in csv_reader:
+#             if num_limiter > 509:
+#                 break
+#             # Create a tuple from the first and second cells (columns)
+#             if len(row) >= 2:  # Ensure there are at least two columns
+#                 result.append(row[0] + " " + row[1])
+#             num_limiter += 1
+# 
+#     return result
+# 
+# # Example usage
+# file_path = 'Florida_Blue_data_with_names.csv'  # Change this to the path of your CSV file
+# data = process_csv(file_path)
+# 
+# # Print the list of tuples
+# print(data)
 
 # import customtkinter as ctk
 # 
