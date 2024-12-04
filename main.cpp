@@ -7,9 +7,11 @@
 #include "YouKnowAboutTheCodes.h"
 #include <fstream>
 #include <sstream>
+#include <map>
+#include <vector>
 using namespace std;
 
-BTree* File_decode(string filename, string tree_name){
+BTree File_decode(string filename, string tree_name){
     BTree new_tree(50000);
     new_tree.name = tree_name;
     ifstream file(filename);
@@ -18,7 +20,6 @@ BTree* File_decode(string filename, string tree_name){
     }
     string line;
     getline(file, line);
-    char delimeter = ',';
     while(getline(file, line)){
         stringstream ss(line);
         string med_code;
@@ -28,10 +29,27 @@ BTree* File_decode(string filename, string tree_name){
         getline(ss, cost);
 
         new_tree.insert(med_code, cost);
-        cout << "B-Tree contents:" << endl;
-        new_tree.display();
+//        cout << "B-Tree contents:" << endl;
+//        new_tree.display();
     }
-    return &new_tree;
+    return new_tree;
+}
+
+//function to search the map for the correct BTree
+BTree get_tree(map<string, BTree> insurance_map, string insurance){
+    for(const auto &pair : insurance_map){
+        if(pair.first == insurance){
+            return pair.second;
+        }
+    }
+    return NULL;
+}
+
+//function for adding a new cost
+void add_to_total(string cost_to_add, double current_total, vector<string>& itemized){
+    double new_cost = stof(cost_to_add);
+    current_total += new_cost;
+    itemized.push_back(cost_to_add);
 }
 
 int main(){
@@ -59,6 +77,42 @@ int main(){
         cout << "Procedure " << code << " not found." << endl;
     }
 
-    File_decode("United_data.csv", "united_data"); //testing the file decoder function, works but all nodes at level zero
+//    File_decode("United_data.csv", "united_data"); //testing the file decoder function, works but all nodes at level zero
+
+    //Final Main Construction Below this line
+
+    //creating insurance B Tree
+    BTree united_health = File_decode("United_data.csv", "united_data");
+    BTree florida_blue = File_decode("Florida_Blue_data.csv", "florida_blue_data");
+    BTree cigna = File_decode("Cigna_data.csv", "cigna_data");
+
+    //map initiation for 3 different insurances
+    map<string, BTree> insurance_map;
+    insurance_map.emplace("United Health", united_health);
+    insurance_map.emplace("Florida Blue", florida_blue);
+    insurance_map.emplace("Cigna", cigna);
+
+    //initializing total
+    vector<string> itemized_costs;
+    double total_cost = 0.0;
+
+    //need to take in user input to search the map for the right tree for now this is for testing functionality
+    cout << "enter insurance" << endl;
+    string user_input_1;
+    getline(cin, user_input_1);
+    BTree current_tree = get_tree(insurance_map, user_input_1);
+
+    //take in user inout for the code they want to add
+    string user_input_2; //for now this is going to act as the user input for testing functionality
+    cout << "enter code" << endl;
+    getline(cin, user_input_2);
+
+    //search for associated cost
+    string cost_to_add;
+    cost_to_add = current_tree.search(user_input_2);
+    add_to_total(cost_to_add, total_cost, itemized_costs);
+    for(string cost: itemized_costs){
+        cout << cost << endl;
+    }
     return 0;
 }

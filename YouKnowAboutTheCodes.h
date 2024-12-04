@@ -114,6 +114,7 @@ private:
     int t;
 
 public:
+    string name;
     // Constructor
     BTree(int t){
         root = nullptr;
@@ -142,7 +143,7 @@ public:
         }
     }
 
-    // Search: search for a key in the B-tree
+    // Search: search for a key in the B-tree -> we have to change this so that we can compare this with another search algorithm
     string search(const string& key){
         return root ? root->search(key) : "";
     }
