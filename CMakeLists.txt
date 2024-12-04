@@ -9,4 +9,6 @@ add_executable(Project3
         main.cpp
 YouKnowAboutTheCodes.h
         UI_constants.py
-UI_main.py)
+UI_main.py
+        map_class.h
+        map_class.h)

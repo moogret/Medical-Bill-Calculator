@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include "YouKnowAboutTheCodes.h"
+#include "map_class.h"
 #include <fstream>
 #include <sstream>
 #include <map>
@@ -35,13 +36,15 @@ BTree File_decode(string filename, string tree_name){
 }
 
 //function to search the map for the correct BTree
-BTree get_tree(map<string, BTree> insurance_map, string insurance){
-    for(const auto &pair : insurance_map){
-        if(pair.first == insurance){
-            return pair.second;
-        }
+BTree get_tree(HashMap insurance_map, string insurance){
+//    for(const auto &pair : insurance_map){
+//        if(pair.first == insurance){
+//            return pair.second;
+//        }
+//    }
+    if(insurance_map.key_exists(insurance)){
+        return insurance_map.get(insurance);
     }
-    return NULL;
 }
 
 //function for adding a new cost
@@ -61,10 +64,10 @@ int main(){
     BTree cigna = File_decode("Cigna_data.csv", "cigna_data");
 
     //map initiation for 3 different insurances
-    map<string, BTree> insurance_map;
-    insurance_map.emplace("United Health", united_health);
-    insurance_map.emplace("Florida Blue", florida_blue);
-    insurance_map.emplace("Cigna", cigna);
+    HashMap insurance_map(3);
+    insurance_map.insert("United Health", united_health);
+    insurance_map.insert("Florida Blue", florida_blue);
+    insurance_map.insert("Cigna", cigna);
 
     //initializing total
     vector<string> itemized_costs;
