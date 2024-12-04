@@ -2,6 +2,9 @@ import customtkinter as ctk
 from tkinter import *
 from UI_constants import *
 
+
+procedure_searchbox = None
+procedure_list_box = None
 # Sets theme for main window
 def change_appearance(selection): # changes window appearance based on selection
     ctk.set_appearance_mode(selection)
@@ -13,13 +16,29 @@ def change_res(selection): # changes window resolution based on selection
 def procedure_search(choice):
     print("combobox dropdown clicked:", choice)
 
-def procedure_find(choice):
-    print("combobox button clicked:", choice)
+def on_search(event):
+    query = search_entry.get().upper()  # Get user input and convert to uppercase
+    # Filter the PROCEDURE_LIST for items that contain the query as a substring
+    filtered_items = [item for item in PROCEDURE_LIST if query in item.upper()]  # Convert item to uppercase as well
+    update_procedure_list(filtered_items)
+
+def update_procedure_list(filtered_items):
+    # Clear the current scrollable frame
+    for widget in procedure_list_box.winfo_children():
+        widget.destroy()
+
+    # Add filtered items to the scrollable frame
+    for item in filtered_items:
+        label = ctk.CTkLabel(procedure_list_box, text=item, font=("Helvetica", 14))
+        label.pack(pady=5, padx=10, anchor="w")  # Align items to the left
 
 # initializes root as app for main window
 app = ctk.CTk()
 
+
 def main():
+    global procedure_searchbox  # Use the global variable
+    global procedure_list_box
 
     # sets default window size and title
     app.geometry(WINDOW_SIZE)
@@ -32,10 +51,13 @@ def main():
 
     # build main user interface frames
     leftBottomButtons = ctk.CTkFrame(master=app, width=350, height=45, fg_color=FRAME_COLOR)
-    leftBottomButtons.place(relx=0.01, rely=0.92, anchor=ctk.NW)
+    leftBottomButtons.place(relx=0.12, rely=0.92, anchor=ctk.N)
 
-    itemListFrame = ctk.CTkScrollableFrame(master=app, width=400, height=550, border_width=5, border_color="black", fg_color="white")
-    itemListFrame.place(relx=0.85, rely=0.05, anchor=ctk.NW)
+    itemListFrame = ctk.CTkScrollableFrame(master=app, width=450, height=475, border_width=5, border_color="black", fg_color="white")
+    itemListFrame.place(relx=0.7, rely=0.2, anchor=ctk.N)
+
+    procedureSearchFrame = ctk.CTkFrame(master=app, width=500, height=500, fg_color="gray")
+    procedureSearchFrame.place(relx=0.3, rely=0.2, anchor=ctk.N)
 
 
     # appearance dropdown selector
@@ -48,21 +70,21 @@ def main():
     window_size_dropdown.set(WINDOW_SIZE)
     window_size_dropdown.grid(row=0, column=1, padx=4, pady=8)
 
-    insurance_dropdown = ctk.CTkOptionMenu(master=app, values=["", "United Health", "Florida Blue", "Cigna"])
-    insurance_dropdown.place(relx=0.55, rely=0.3, anchor=ctk.NW)
+    insurance_dropdown = ctk.CTkOptionMenu(master=procedureSearchFrame, values=INSURANCE_LIST, width=350, height=60, font=("Helvetica",17))
+    insurance_dropdown.set("Select your insurance provider...")
+    insurance_dropdown.place(relx=0.5, rely=0.1, anchor=ctk.N)
 
+    search_entry = ctk.CTkEntry(master=procedureSearchFrame, placeholder_text="Search procedures...", width=350, height=60, font=("Helvetica",17))
+    search_entry.place(relx=0.5, rely=0.25, anchor=ctk.N)
+    search_entry.bind("<KeyRelease>", on_search)  # Trigger search on key release
 
-    procedure_searchbox_var = ctk.StringVar(value="")
-    procedure_searchbox = ctk.CTkComboBox(master=app, values=PROCEDURE_LIST, command=procedure_search, variable=procedure_searchbox_var)
-    procedure_searchbox_var.set("Select Procedure")
-    procedure_searchbox.place(relx=0.20, rely=0.4, anchor=ctk.NW)
+    procedure_list_box = ctk.CTkScrollableFrame(master=procedureSearchFrame, width=350, height=250)
+    procedure_list_box.place(relx=0.5, rely=0.4, anchor=ctk.N)
 
-    procedure_searchbutton = ctk.CTkButton(master=app, text="Search", command=procedure_find, width=15)
-    procedure_searchbutton.place(relx=0.33, rely=0.4, anchor=ctk.NW)
+    #update_procedure_list(PROCEDURE_LIST)
 
-
-    procedure_output_label = ctk.CTkLabel(master=app, text="Welcome to Mary Squared + Abhik\nMedical Procedure Cost Calculator!")
-    procedure_output_label.place(relx=0.4, rely=0.05, anchor=ctk.NW)
+    heading_label = ctk.CTkLabel(master=app, text="Welcome to Mary Squared + Abhik\nMedical Procedure Cost Calculator!", font=("Helvetica",30))
+    heading_label.place(relx=0.5, rely=0.05, anchor=ctk.N)
 
 
 
