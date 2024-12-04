@@ -73,27 +73,30 @@ int main(){
     vector<string> itemized_costs;
     double total_cost = 0.00f;
 
+    bool ui_open = true;
+
     //need to take in user input to search the map for the right tree for now this is for testing functionality
-    cout << "enter insurance" << endl;
-    string user_input_1;
-    getline(cin, user_input_1);
-    BTree current_tree = get_tree(insurance_map, user_input_1);
+    while(ui_open) {
+        cout << "enter insurance" << endl;
+        string user_input_1;
+        getline(cin, user_input_1);
+        BTree current_tree = get_tree(insurance_map, user_input_1);
 
-    //take in user inout for the code they want to add
-    string user_input_2; //for now this is going to act as the user input for testing functionality
-    cout << "enter code" << endl;
-    getline(cin, user_input_2);
+        //take in user inout for the code they want to add
+        string user_input_2; //for now this is going to act as the user input for testing functionality
+        cout << "enter code" << endl;
+        getline(cin, user_input_2);
 
-    //search for associated cost
-    string cost_to_add;
-    cost_to_add = current_tree.search(user_input_2);
-    add_to_total(cost_to_add, total_cost, itemized_costs);
+        //search for associated cost
+        string cost_to_add;
+        cost_to_add = current_tree.search(user_input_2);
+        add_to_total(cost_to_add, total_cost, itemized_costs);
 
-    //debugging statement
-    for(string cost: itemized_costs){
-        cout << cost << endl;
+        //debugging statement
+        for (string cost: itemized_costs) {
+            cout << cost << endl;
+        }
     }
-
     return 0;
 }
 

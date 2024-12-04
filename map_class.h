@@ -9,12 +9,13 @@
 #include <string>
 #include <functional>
 #include <stdexcept>
+using namespace std;
 
 // Simplified HashMap for string keys and BTree values
 class HashMap {
 private:
     struct Entry {
-        std::string key;
+        string key;
         BTree value;
         bool isOccupied;
 
@@ -22,7 +23,7 @@ private:
         Entry() : isOccupied(false), value(0) {}
 
         // Constructor for a key-value pair
-        Entry(const std::string& k, const BTree& v)
+        Entry(const string& k, const BTree& v)
                 : key(k), value(v), isOccupied(true) {}
     };
 
@@ -30,20 +31,20 @@ private:
     size_t tableSize;
 
     // Hash function
-    size_t hash(const std::string& key) const {
-        std::hash<std::string> hasher;
+    size_t hash(const string& key) const {
+        ::hash<string> hasher;
         return hasher(key) % tableSize;
     }
 
     // Find the index of a key or an available slot
-    size_t findSlot(const std::string& key) const {
+    size_t findSlot(const string& key) const {
         size_t index = hash(key);
         size_t startIndex = index;
 
         while (table[index].isOccupied && table[index].key != key) {
             index = (index + 1) % tableSize; // Linear probing
             if (index == startIndex) {
-                throw std::overflow_error("Hash table is full");
+                throw overflow_error("Hash table is full");
             }
         }
         return index;
@@ -54,7 +55,7 @@ public:
     HashMap(size_t size) : table(size), tableSize(size) {}
 
     // Insert a key-value pair
-    void insert(const std::string& key, const BTree& value) {
+    void insert(const string& key, const BTree& value) {
         size_t index = findSlot(key);
 
         if (!table[index].isOccupied) {
@@ -65,15 +66,16 @@ public:
     }
 
     // Retrieve the value associated with a key
-    BTree get(const std::string& key) const {
+    BTree get(const string& key) const {
         size_t index = findSlot(key);
 
         if (table[index].isOccupied && table[index].key == key) {
             return table[index].value;
         } else {
-            throw std::runtime_error("Key not found");
+            throw runtime_error("Key not found");
         }
     }
+
 
     bool key_exists(const string& key) const {
         size_t index = findSlot(key);
