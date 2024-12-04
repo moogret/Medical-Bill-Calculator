@@ -8,6 +8,5 @@ include_directories(.)
 add_executable(Project3
         main.cpp
 YouKnowAboutTheCodes.h
-YouKnowAboutTheCodes.cpp
-UI_constants.py
+        UI_constants.py
 UI_main.py)
