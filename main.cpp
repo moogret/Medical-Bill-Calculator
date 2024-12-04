@@ -55,6 +55,15 @@ void add_to_total(string cost_to_add, double current_total, vector<string>& item
     itemized.push_back(cost_to_add);
 }
 
+int write_to(string cost_to_add){
+    ofstream file_to("price_data");
+    if(!file_to){
+        return 1;
+    }
+    file_to << cost_to_add << endl;
+    file_to.close();
+}
+
 int main(){
     //Final Main Construction Below this line
 
@@ -90,6 +99,7 @@ int main(){
         //search for associated cost
         string cost_to_add;
         cost_to_add = current_tree.search(user_input_2);
+        write_to(cost_to_add);
         add_to_total(cost_to_add, total_cost, itemized_costs);
 
         //debugging statement
