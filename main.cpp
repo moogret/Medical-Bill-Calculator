@@ -92,7 +92,8 @@ int main(){
     string user_input_1;
     //getline(cin, user_input_1);
 
-    const char* command = "python ../UI_main.py"; // Adjust the command as needed
+    // Command to run the Python script
+    const char* command = "python -u ../UI_main.py"; // Adjust the command as needed
 
     // Open a pipe to the Python script
     FILE* pipe = popen(command, "r");
@@ -109,28 +110,36 @@ int main(){
     while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
         std::cout << "Received: " << buffer.data(); // Print received output
         output += buffer.data(); // Append to the complete output string
+
+        if (insurance_map.key_exists(buffer.data())){
+            BTree current_tree = get_tree(insurance_map, buffer.data());
+            continue;
+        }
+        else{
+            // gets the price of the buffer.data() code
+        }
     }
 
     // Close the pipe
     int return_code = pclose(pipe);
 
-    BTree current_tree = get_tree(insurance_map, user_input_1);
+//    BTree current_tree = get_tree(insurance_map, user_input_1);
+//
+//    //take in user inout for the code they want to add
+//    string user_input_2; //for now this is going to act as the user input for testing functionality
+//    cout << "enter code" << endl;
+//    getline(cin, user_input_2);
 
-    //take in user inout for the code they want to add
-    string user_input_2; //for now this is going to act as the user input for testing functionality
-    cout << "enter code" << endl;
-    getline(cin, user_input_2);
+//    //search for associated cost
+//    string cost_to_add;
+//    cost_to_add = current_tree.search(user_input_2);
+//    add_to_total(cost_to_add, total_cost, itemized_costs);
+//
+//    //debugging statement
+//    for(string cost: itemized_costs){
+//        cout << cost << endl;
+//    }
 
-        //search for associated cost
-        string cost_to_add;
-        cost_to_add = current_tree.search(user_input_2);
-        write_to(cost_to_add);
-        add_to_total(cost_to_add, total_cost, itemized_costs);
-
-    //debugging statement
-    for(string cost: itemized_costs){
-        cout << cost << endl;
-    }
     return 0;
 }
 
