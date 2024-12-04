@@ -19,7 +19,11 @@ def procedure_search(choice):
 def on_search(event):
     query = search_entry.get().upper()  # Get user input and convert to uppercase
     # Filter the PROCEDURE_LIST for items that contain the query as a substring
-    filtered_items = [item for item in PROCEDURE_LIST if query in item.upper()]  # Convert item to uppercase as well
+    filtered_items = []
+    for item in PROCEDURE_LIST:
+        if query in item:
+            filtered_items.append(item)
+
     update_procedure_list(filtered_items)
 
 def update_procedure_list(filtered_items):
@@ -29,7 +33,7 @@ def update_procedure_list(filtered_items):
 
     # Add filtered items to the scrollable frame
     for item in filtered_items:
-        label = ctk.CTkLabel(procedure_list_box, text=item, font=("Helvetica", 14))
+        label = ctk.CTkLabel(master=procedure_list_box, text=item, font=("Helvetica", 14))
         label.pack(pady=5, padx=10, anchor="w")  # Align items to the left
 
 # initializes root as app for main window
