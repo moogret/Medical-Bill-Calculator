@@ -11,6 +11,9 @@
 #include <map>
 #include <vector>
 #include <cmath>
+#include <cstdio>
+#include <array>
+
 using namespace std;
 
 BTree File_decode(string filename, string tree_name){
@@ -58,6 +61,9 @@ void add_to_total(string cost_to_add, double current_total, vector<string>& item
 int main(){
     //Final Main Construction Below this line
 
+
+
+
     //creating insurance B Tree
     BTree united_health = File_decode("United_data.csv", "united_data");
     BTree florida_blue = File_decode("Florida_Blue_data.csv", "florida_blue_data");
@@ -73,30 +79,50 @@ int main(){
     vector<string> itemized_costs;
     double total_cost = 0.00f;
 
-    bool ui_open = true;
-
     //need to take in user input to search the map for the right tree for now this is for testing functionality
-    while(ui_open) {
-        cout << "enter insurance" << endl;
-        string user_input_1;
-        getline(cin, user_input_1);
-        BTree current_tree = get_tree(insurance_map, user_input_1);
+    cout << "enter insurance" << endl;
+    string user_input_1;
+    //getline(cin, user_input_1);
 
-        //take in user inout for the code they want to add
-        string user_input_2; //for now this is going to act as the user input for testing functionality
-        cout << "enter code" << endl;
-        getline(cin, user_input_2);
+    const char* command = "python ../UI_main.py"; // Adjust the command as needed
 
-        //search for associated cost
-        string cost_to_add;
-        cost_to_add = current_tree.search(user_input_2);
-        add_to_total(cost_to_add, total_cost, itemized_costs);
-
-        //debugging statement
-        for (string cost: itemized_costs) {
-            cout << cost << endl;
-        }
+    // Open a pipe to the Python script
+    FILE* pipe = popen(command, "r");
+    if (!pipe) {
+        std::cerr << "Failed to open pipe!" << std::endl;
+        return 1;
     }
+
+    // Buffer to store the output
+    std::array<char, 128> buffer;
+    std::string output;
+
+    // Read the output from the Python script in real time
+    while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
+        std::cout << "Received: " << buffer.data(); // Print received output
+        output += buffer.data(); // Append to the complete output string
+    }
+
+    // Close the pipe
+    int return_code = pclose(pipe);
+
+    BTree current_tree = get_tree(insurance_map, user_input_1);
+
+    //take in user inout for the code they want to add
+    string user_input_2; //for now this is going to act as the user input for testing functionality
+    cout << "enter code" << endl;
+    getline(cin, user_input_2);
+
+    //search for associated cost
+    string cost_to_add;
+    cost_to_add = current_tree.search(user_input_2);
+    add_to_total(cost_to_add, total_cost, itemized_costs);
+
+    //debugging statement
+    for(string cost: itemized_costs){
+        cout << cost << endl;
+    }
+
     return 0;
 }
 
