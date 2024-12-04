@@ -13,6 +13,7 @@
 #include <cmath>
 #include <cstdio>
 #include <array>
+#include <algorithm>
 
 using namespace std;
 
@@ -67,6 +68,12 @@ int write_to(string cost_to_add){
     file_to.close();
 }
 
+std::string trim(const std::string& str) {
+    size_t first = str.find_first_not_of(" \t\n\r");
+    size_t last = str.find_last_not_of(" \t\n\r");
+    return (first == std::string::npos || last == std::string::npos) ? "" : str.substr(first, last - first + 1);
+}
+
 int main(){
     //Final Main Construction Below this line
 
@@ -76,7 +83,7 @@ int main(){
     BTree cigna = File_decode("Cigna_data.csv", "cigna_data");
 
     //map initiation for 3 different insurances
-    HashMap insurance_map(3);
+    HashMap insurance_map(6);
     insurance_map.insert("United Health", united_health);
     insurance_map.insert("Florida Blue", florida_blue);
     insurance_map.insert("Cigna", cigna);
@@ -92,11 +99,13 @@ int main(){
     string user_input_1;
     //getline(cin, user_input_1);
 
+    cout << cigna.search("10001") << endl;
+
     // Command to run the Python script
     const char* command = "python -u ../UI_main.py"; // Adjust the command as needed
 
     // Open a pipe to the Python script
-    FILE* pipe = popen(command, "r");
+    FILE* pipe = popen(command, "w");
     if (!pipe) {
         std::cerr << "Failed to open pipe!" << std::endl;
         return 1;
@@ -106,17 +115,20 @@ int main(){
     std::array<char, 128> buffer;
     std::string output;
 
+    BTree current_tree = cigna;
     // Read the output from the Python script in real time
     while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
         std::cout << "Received: " << buffer.data(); // Print received output
         output += buffer.data(); // Append to the complete output string
 
         if (insurance_map.key_exists(buffer.data())){
-            BTree current_tree = get_tree(insurance_map, buffer.data());
+            current_tree = get_tree(insurance_map, buffer.data());
             continue;
         }
         else{
-            // gets the price of the buffer.data() code
+            string trimmed_string = trim(buffer.data());
+            cout << trimmed_string << endl;
+            cout << cigna.search(trimmed_string) << endl;
         }
     }
 
