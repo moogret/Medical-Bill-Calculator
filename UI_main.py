@@ -5,6 +5,7 @@ from UI_constants import *
 
 procedure_searchbox = None
 procedure_list_box = None
+search_entry = None
 # Sets theme for main window
 def change_appearance(selection): # changes window appearance based on selection
     ctk.set_appearance_mode(selection)
@@ -20,7 +21,7 @@ def on_search(event):
     query = search_entry.get().upper()  # Get user input and convert to uppercase
     # Filter the PROCEDURE_LIST for items that contain the query as a substring
     filtered_items = []
-    for item in PROCEDURE_LIST:
+    for item in data:
         if query in item:
             filtered_items.append(item)
 
@@ -33,8 +34,13 @@ def update_procedure_list(filtered_items):
 
     # Add filtered items to the scrollable frame
     for item in filtered_items:
-        label = ctk.CTkLabel(master=procedure_list_box, text=item, font=("Helvetica", 14))
-        label.pack(pady=5, padx=10, anchor="w")  # Align items to the left
+
+        frame = ctk.CTkFrame(master=procedure_list_box, width=200, height=100, border_width=2, border_color="black", fg_color="white")
+        frame.pack(pady=5, padx=10, anchor="w")
+        label = ctk.CTkLabel(master=frame, text=item, font=("Helvetica", 14), width=225, anchor="w")
+        label.grid(column=0, row=0, pady=5, padx=10)
+        button = ctk.CTkButton(master=frame, text="Add", width=50, height=30)
+        button.grid(column=2, row=0, pady=5, padx=10)
 
 # initializes root as app for main window
 app = ctk.CTk()
@@ -43,6 +49,7 @@ app = ctk.CTk()
 def main():
     global procedure_searchbox  # Use the global variable
     global procedure_list_box
+    global search_entry
 
     # sets default window size and title
     app.geometry(WINDOW_SIZE)
@@ -85,7 +92,7 @@ def main():
     procedure_list_box = ctk.CTkScrollableFrame(master=procedureSearchFrame, width=350, height=250)
     procedure_list_box.place(relx=0.5, rely=0.4, anchor=ctk.N)
 
-    #update_procedure_list(PROCEDURE_LIST)
+    update_procedure_list(data)
 
     heading_label = ctk.CTkLabel(master=app, text="Welcome to Mary Squared + Abhik\nMedical Procedure Cost Calculator!", font=("Helvetica",30))
     heading_label.place(relx=0.5, rely=0.05, anchor=ctk.N)
