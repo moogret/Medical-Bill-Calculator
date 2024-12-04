@@ -13,7 +13,7 @@
 using namespace std;
 
 BTree File_decode(string filename, string tree_name){
-    BTree new_tree(50000);
+    BTree new_tree(50);
     new_tree.name = tree_name;
     ifstream file(filename);
     if(!file.is_open()){
@@ -85,10 +85,12 @@ int main(){
     string cost_to_add;
     cost_to_add = current_tree.search(user_input_2);
     add_to_total(cost_to_add, total_cost, itemized_costs);
+
     //debugging statement
     for(string cost: itemized_costs){
         cout << cost << endl;
     }
+
     return 0;
 }
 
