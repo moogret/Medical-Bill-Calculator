@@ -74,9 +74,13 @@ def update_procedure_list(filtered_items):
 
 
 
+
+
+def printInsurance(name):
+    print(name)
+
 # initializes root as app for main window
 app = ctk.CTk()
-
 
 def main():
     global procedure_searchbox  # Use the global variable
@@ -114,7 +118,8 @@ def main():
     window_size_dropdown.set(WINDOW_SIZE)
     window_size_dropdown.grid(row=0, column=1, padx=4, pady=8)
 
-    insurance_dropdown = ctk.CTkOptionMenu(master=procedureSearchFrame, values=INSURANCE_LIST, width=350, height=60, font=("Helvetica",17))
+    insurance_dropdown_var = ctk.StringVar(value="")
+    insurance_dropdown = ctk.CTkOptionMenu(master=procedureSearchFrame, values=INSURANCE_LIST, width=350, height=60, font=("Helvetica",17), command=printInsurance, variable=insurance_dropdown_var)
     insurance_dropdown.set("Select your insurance provider...")
     insurance_dropdown.place(relx=0.5, rely=0.1, anchor=ctk.N)
 
