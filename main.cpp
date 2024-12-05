@@ -80,8 +80,6 @@ string trim(const std::string& str) {
 int main(){
     //Final Main Construction Below this line
 
-    int result1 = write_to("Test");
-    cout << result1;
     //creating insurance B Tree
     BTree united_health = File_decode("United_data.csv", "united_data");
     BTree florida_blue = File_decode("Florida_Blue_data.csv", "florida_blue_data");
@@ -102,9 +100,6 @@ int main(){
     //need to take in user input to search the map for the right tree for now this is for testing functionality
     cout << "enter insurance" << endl;
     string user_input_1;
-    //getline(cin, user_input_1);
-
-    cout << cigna.search("10001") << endl;
 
     // Command to run the Python script
     const char* command = "python -u ../UI_main.py"; // Adjust the command as needed
@@ -128,19 +123,22 @@ int main(){
     BTree current_tree = cigna;
     // Read the output from the Python script in real time
     while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
-        std::cout << "Received: " << buffer.data(); // Print received output
+        std::cout << "C++ Received: " << buffer.data() << endl; // Print received output
         output += buffer.data(); // Append to the complete output string
+        string trimmed_string = trim(buffer.data());
 
-        if (insurance_map.key_exists(buffer.data())){
-            current_tree = get_tree(insurance_map, buffer.data());
+        if (insurance_map.key_exists(trimmed_string)){
+            current_tree = get_tree(insurance_map, trimmed_string);
             continue;
         }
         else{
+            //cout << "output buffer " << buffer.data();
             string trimmed_string = trim(buffer.data());
             cout << trimmed_string << endl;
             string result;
             result = current_tree.search(trimmed_string);
-            cout << result << endl;
+            cout << "written value: " << result << endl;
+            result = trim(result);
             write_to(result);
         }
     }

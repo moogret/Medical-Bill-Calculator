@@ -78,10 +78,13 @@ public:
 
 
     bool key_exists(const string& key) const {
+        cout << "Key exists?";
         size_t index = findSlot(key);
         if (table[index].isOccupied && table[index].key == key) {
+            cout << "yes it does" << endl;
             return true;
         } else {
+            cout << "false" << endl;
             return false;
         }
     }
