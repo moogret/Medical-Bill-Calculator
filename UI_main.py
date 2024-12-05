@@ -47,11 +47,19 @@ def delete_the_procedure(name):
 def add_to(name):
     # send code to the c++, find the price
     print(name)
+    for line in sys.stdin:
+        print(f"Received from C++: {line.strip()}")
+        price = line.strip()
+
+    # Open the file in read mode
+
     added_items[name] = ctk.CTkFrame(master=itemListFrame, width=200, height=100, border_width=2, border_color="black",
                          fg_color="white")
     added_items[name].pack(pady=5, padx=10, anchor="w")
-    label = ctk.CTkLabel(master=added_items[name], text=name, font=("Helvetica", 14), width=225, anchor="w")
+    label = ctk.CTkLabel(master=added_items[name], text=name, font=("Helvetica", 14), width=200, anchor="w")
     label.grid(column=0, row=0, pady=5, padx=10)
+    label2 = ctk.CTkLabel(master=added_items[name], text=price, font=("Helvetica", 14), width=80, anchor="w")
+    label2.grid(column=1, row=0, pady=5, padx=10)
     button = ctk.CTkButton(master=added_items[name], text="Remove", fg_color="red", width=50, height=30, command=lambda n=name: delete_the_procedure(n))
     button.grid(column=2, row=0, pady=5, padx=10)
     # update_total_cost()
@@ -140,13 +148,7 @@ def main():
     heading_label = ctk.CTkLabel(master=app, text="Welcome to Mary Squared + Abhik\nMedical Procedure Cost Calculator!", font=("Helvetica",30))
     heading_label.place(relx=0.5, rely=0.05, anchor=ctk.N)
 
-    # for line in sys.stdin:
-    #     print(f"Received from C++: {line.strip()}")
 
-    # Open the file in read mode
-    with open("price_data.txt", "r") as file:
-        content = file.read()  # Reads the entire content of the file
-        print(content + " hiiiiii")
 
     app.mainloop()
 if __name__ == "__main__":
