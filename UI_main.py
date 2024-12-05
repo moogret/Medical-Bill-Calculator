@@ -47,9 +47,6 @@ def delete_the_procedure(name):
 def add_to(name):
     # send code to the c++, find the price
     print(name)
-    for line in sys.stdin:
-        print(f"Received from C++: {line.strip()}")
-        price = line.strip()
 
     # Open the file in read mode
 
@@ -148,7 +145,10 @@ def main():
     heading_label = ctk.CTkLabel(master=app, text="Welcome to Mary Squared + Abhik\nMedical Procedure Cost Calculator!", font=("Helvetica",30))
     heading_label.place(relx=0.5, rely=0.05, anchor=ctk.N)
 
-
+    # Open the file in read mode
+    with open("example.txt", "r") as file:
+        content = file.read()  # Reads the entire content of the file
+        print(content)
 
     app.mainloop()
 if __name__ == "__main__":
