@@ -143,6 +143,11 @@ def main():
     # for line in sys.stdin:
     #     print(f"Received from C++: {line.strip()}")
 
+    # Open the file in read mode
+    with open("price_data.txt", "r") as file:
+        content = file.read()  # Reads the entire content of the file
+        print(content)
+
     app.mainloop()
 if __name__ == "__main__":
     main()
