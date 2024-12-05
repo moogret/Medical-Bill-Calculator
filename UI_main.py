@@ -142,7 +142,7 @@ def main():
 
     # sets default window size and title
     app.geometry(WINDOW_SIZE)
-    app.title("Project 3 (Change this later)")
+    app.title("Medical Procedure Cost Calculator")
 
 
     # sets default appearance and color theme
