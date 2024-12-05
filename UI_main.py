@@ -146,7 +146,7 @@ def main():
     # Open the file in read mode
     with open("price_data.txt", "r") as file:
         content = file.read()  # Reads the entire content of the file
-        print(content)
+        print(content + " hiiiiii")
 
     app.mainloop()
 if __name__ == "__main__":
