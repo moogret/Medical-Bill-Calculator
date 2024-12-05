@@ -7,6 +7,7 @@
 #include "YouKnowAboutTheCodes.h"
 #include "map_class.h"
 #include <fstream>
+#include <string>
 #include <sstream>
 #include <map>
 #include <vector>
@@ -20,7 +21,7 @@ using namespace std;
 BTree File_decode(string filename, string tree_name){
     BTree new_tree(50);
     new_tree.name = tree_name;
-    ifstream file(filename);
+    ifstream file("../Data/" + filename);
     if(!file.is_open()){
         cerr << "File not opened" << endl;
     }
@@ -59,16 +60,18 @@ void add_to_total(string cost_to_add, double current_total, vector<string>& item
     itemized.push_back(cost_to_add);
 }
 
-int write_to(string cost_to_add){
-    ofstream file_to("price_data");
-    if(!file_to){
-        return 1;
+int write_to(const std::string& cost_to_add) {
+    std::ofstream file_to("price_data.txt"); // Open in append mode
+    if (!file_to) {
+        return 1; // Error opening file
     }
-    file_to << cost_to_add << endl;
-    file_to.close();
+    if (!(file_to << cost_to_add << std::endl)) { // Check if write succeeds
+        return 2; // Error writing to file
+    }
+    return 0; // Success
 }
 
-std::string trim(const std::string& str) {
+string trim(const std::string& str) {
     size_t first = str.find_first_not_of(" \t\n\r");
     size_t last = str.find_last_not_of(" \t\n\r");
     return (first == std::string::npos || last == std::string::npos) ? "" : str.substr(first, last - first + 1);
@@ -77,6 +80,8 @@ std::string trim(const std::string& str) {
 int main(){
     //Final Main Construction Below this line
 
+    int result1 = write_to("Test");
+    cout << result1;
     //creating insurance B Tree
     BTree united_health = File_decode("United_data.csv", "united_data");
     BTree florida_blue = File_decode("Florida_Blue_data.csv", "florida_blue_data");
@@ -105,7 +110,7 @@ int main(){
     const char* command = "python -u ../UI_main.py"; // Adjust the command as needed
 
     // Open a pipe to the Python script
-    FILE* pipe = popen(command, "w");
+    FILE* pipe = popen(command, "r");
     if (!pipe) {
         std::cerr << "Failed to open pipe!" << std::endl;
         return 1;
@@ -114,6 +119,11 @@ int main(){
     // Buffer to store the output
     std::array<char, 128> buffer;
     std::string output;
+
+    // Write data to the Python script
+//    std::string cplusplus_output = "Data from C++";
+//    fprintf(pipe, "%s\n", cplusplus_output.c_str());
+//    fflush(pipe);  // Ensure data is sent to the Python script
 
     BTree current_tree = cigna;
     // Read the output from the Python script in real time
@@ -128,7 +138,10 @@ int main(){
         else{
             string trimmed_string = trim(buffer.data());
             cout << trimmed_string << endl;
-            cout << cigna.search(trimmed_string) << endl;
+            string result;
+            result = current_tree.search(trimmed_string);
+            cout << result << endl;
+            write_to(result);
         }
     }
 
