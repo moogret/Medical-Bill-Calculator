@@ -18,6 +18,7 @@
 
 using namespace std;
 
+// File Decode Function: decode the procedural codes and their respective costs from csv file
 BTree File_decode(string filename, string tree_name){
     BTree new_tree(50);
     new_tree.name = tree_name;
@@ -40,7 +41,7 @@ BTree File_decode(string filename, string tree_name){
     return new_tree;
 }
 
-//function to search the map for the correct BTree
+// function to search the map for the correct BTree
 BTree get_tree(HashMap insurance_map, string insurance){
 //    for(const auto &pair : insurance_map){
 //        if(pair.first == insurance){
@@ -52,7 +53,7 @@ BTree get_tree(HashMap insurance_map, string insurance){
     }
 }
 
-//function for adding a new cost
+// function for adding a new cost
 void add_to_total(string cost_to_add, double current_total, vector<string>& itemized){
     double new_cost = stof(cost_to_add);
     float rounded_value = round(new_cost * 100) / 100;
@@ -60,6 +61,7 @@ void add_to_total(string cost_to_add, double current_total, vector<string>& item
     itemized.push_back(cost_to_add);
 }
 
+// Write to function to write codes to gui
 int write_to(const std::string& cost_to_add) {
     std::ofstream file_to("price_data.txt"); // Open in append mode
     if (!file_to) {
@@ -71,12 +73,14 @@ int write_to(const std::string& cost_to_add) {
     return 0; // Success
 }
 
+// Trim functions:: having issues with GUI
 string trim(const std::string& str) {
     size_t first = str.find_first_not_of(" \t\n\r");
     size_t last = str.find_last_not_of(" \t\n\r");
     return (first == std::string::npos || last == std::string::npos) ? "" : str.substr(first, last - first + 1);
 }
 
+// MAIN ;)
 int main(){
     //Final Main Construction Below this line
 
@@ -146,6 +150,7 @@ int main(){
     // Close the pipe
     int return_code = pclose(pipe);
 
+    // other testing below: our character building
 //    BTree current_tree = get_tree(insurance_map, user_input_1);
 //
 //    //take in user inout for the code they want to add

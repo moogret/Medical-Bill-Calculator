@@ -76,7 +76,7 @@ public:
         }
     }
 
-
+    // Key exists: checking to see if key exits
     bool key_exists(const string& key) const {
         cout << "Key exists?";
         size_t index = findSlot(key);
